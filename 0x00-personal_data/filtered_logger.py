@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """ working with logs """
 
+import os
 import re
 import logging
+import mysql.connector
 from typing import List
 
 
@@ -34,6 +36,24 @@ def get_logger() -> logging.Logger:
     logger.addHandler(stream_handler)
 
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """ Creates a connector to the database and returns it """
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
+    db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+
+    connecton = mysql.connector.connect(
+        host=db_host,
+        port=3306,
+        user=db_user,
+        password=db_password,
+        database=db_name,
+    )
+
+    return connecton
 
 
 class RedactingFormatter(logging.Formatter):
