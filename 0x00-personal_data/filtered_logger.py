@@ -11,6 +11,8 @@ occurrences = {
     'replace': lambda x: r'\g<field>={}'.format(x),
 }
 
+PII_FIELDS = ("name", "email", "phone", "ssn", "password")
+
 
 def filter_datum(
         fields: List[str], redaction: str, message: str, separator: str,
@@ -18,6 +20,20 @@ def filter_datum(
     """ Returns a filtered log message """
     extract, replace = (occurrences['extract'], occurrences['replace'])
     return re.sub(extract(fields, separator), replace(redaction), message)
+
+
+def get_logger() -> logging.Logger:
+    """ create a log for user data """
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(RedactingFormatter(PII_FIELDS))
+
+    logger.addHandler(stream_handler)
+
+    return logger
 
 
 class RedactingFormatter(logging.Formatter):
