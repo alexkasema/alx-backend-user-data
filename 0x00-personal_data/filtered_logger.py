@@ -56,6 +56,28 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     return connecton
 
 
+def main():
+    """ get information from users table and display it in a filtered format
+    """
+    fields = "name,email,phone,ssn,password,ip,last_login,user_agent"
+    cols = fields.split(',')
+    query = "SELECT {} FROM users;".format(fields)
+
+    logger = get_logger()
+    connection = get_db()
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        for row in rows:
+            record = map(
+                lambda x: '{}={}'.format(x[0], x[1]), zip(cols, row),
+            )
+            data = '{};'.format('; '.join(list(record)))
+            args = ("user_data", logging.INFO, None, None, data, None, None)
+            log_record = logging.LogRecord(*args)
+            logger.handle(log_record)
+
+
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
