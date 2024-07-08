@@ -50,9 +50,9 @@ class BasicAuth(Auth):
                 isinstance(decoded_base64_authorization_header, str) and
                 ':' in decoded_base64_authorization_header):
             return(None, None)
-        username, password = decoded_base64_authorization_header.split(":")
+        email, password = decoded_base64_authorization_header.split(":")
 
-        return (username, password)
+        return (email, password)
 
     def user_object_from_credentials(
             self,
@@ -76,3 +76,16 @@ class BasicAuth(Auth):
                 return user
 
         return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """  retrieves the User instance for a request """
+        try:
+            auth_header = self.authorization_header(request)
+            base64 = self.extract_base64_authorization_header(auth_header)
+            decoded_value = self.decode_base64_authorization_header(base64)
+            email, password = self.extract_user_credentials(decoded_value)
+            user = self.user_object_from_credentials(email, password)
+
+            return user
+        except Exception:
+            return None
