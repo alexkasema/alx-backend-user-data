@@ -15,6 +15,17 @@ class Auth:
         if path[-1] == '/':
             path = path[:-1]
 
+        for excluded_path in excluded_paths:
+            if excluded_path.endswith('*'):
+                next_idx_after_slash = excluded_path.rfind('/') + 1
+                excluded = excluded_path[next_idx_after_slash:-1]
+
+                next_idx_after_slash = path.rfind('/') + 1
+                tmp_path = path[next_idx_after_slash:]
+
+                if excluded in tmp_path:
+                    return False
+
         path += '/'
 
         if path in excluded_paths:
