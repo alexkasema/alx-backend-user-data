@@ -1,0 +1,2 @@
+# Basic authentication
+In the context of an HTTP transaction, basic access authentication is a method for an HTTP user agent (e.g. a web browser) to provide a user name and password when making a request. In basic HTTP authentication, a request contains a header field in the form of Authorization: Basic <credentials>, where <credentials> is the Base64 encoding of ID and password joined by a single colon :
