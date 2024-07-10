@@ -26,7 +26,7 @@ def login() -> Tuple[str, int]:
         return jsonify({"error": "no user found for this email"}), 404
 
     if len(users) <= 0:
-        return jsonify({ "error": "no user found for this email" }), 404
+        return jsonify({"error": "no user found for this email"}), 404
 
     if users[0].is_valid_password(password):
         from api.v1.app import auth
@@ -36,3 +36,16 @@ def login() -> Tuple[str, int]:
 
         return res
     return jsonify({"error": "wrong password"}), 401
+
+
+@app_views.route(
+    '/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+def logout() -> Tuple[str, int]:
+    """ destroy the session of the logged in user """
+    from api.v1.app import auth
+
+    destroy_session = auth.destroy_session(request)
+
+    if not destroy_session:
+        abort(404)
+    return jsonify({}), 200
