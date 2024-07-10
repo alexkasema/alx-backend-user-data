@@ -3,6 +3,8 @@
 
 from uuid import uuid4
 from api.v1.auth.auth import Auth
+from flask import request
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -27,3 +29,8 @@ class SessionAuth(Auth):
 
         user_id = self.user_id_by_session_id.get(session_id)
         return user_id
+
+    def current_user(self, request=None) -> User:
+        """ retrieves a user instance based on a cookie value """
+        user_id = self.user_id_for_session_id(self.session_cookie(request))
+        return User.get(user_id)
