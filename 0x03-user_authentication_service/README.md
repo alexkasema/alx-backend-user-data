@@ -31,3 +31,10 @@ Hash password
 In this task you will define a _hash_password method that takes in a password string arguments and returns bytes.
 
 The returned bytes is a salted hash of the input password, hashed with bcrypt.hashpw.
+## auth.py
+Implement the Auth.register_user in the Auth class
+Auth.register_user should take mandatory email and password string arguments and return a User object.
+
+If a user already exist with the passed email, raise a ValueError with the message User <users email> already exists.
+
+If not, hash the password with _hash_password, save the user to the database using self._db and return the User object.
