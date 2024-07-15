@@ -59,3 +59,7 @@ The end-point should expect two form data fields: "email" and "password".
 In this task, you will implement the Auth.valid_login method. It should expect email and password required arguments and return a boolean.
 
 Try locating the user by email. If it exists, check the password with bcrypt.checkpw. If it matches return True. In any other case, return False.
+## auth.py
+In this task you will implement a _generate_uuid function in the auth module. The function should return a string representation of a new UUID. Use the uuid module.
+
+Note that the method is private to the auth module and should NOT be used outside of it.
