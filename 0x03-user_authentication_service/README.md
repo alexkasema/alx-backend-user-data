@@ -26,3 +26,8 @@ In this task, you will implement the DB.update_user method that takes as argumen
 The method will use find_user_by to locate the user to update, then will update the user’s attributes as passed in the method’s arguments then commit changes to the database.
 
 If an argument that does not correspond to a user attribute is passed, raise a ValueError.
+## auth.py
+Hash password
+In this task you will define a _hash_password method that takes in a password string arguments and returns bytes.
+
+The returned bytes is a salted hash of the input password, hashed with bcrypt.hashpw.
