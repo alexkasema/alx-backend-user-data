@@ -124,3 +124,10 @@ The request is expected to contain form data with the "email" field.
 If the email is not registered, respond with a 403 status code. Otherwise, generate a token and respond with a 200 HTTP status and the following JSON payload:
 
 {"email": "<user email>", "reset_token": "<reset token>"}
+## auth.py
+Update password
+In this task, you will implement the Auth.update_password method. It takes reset_token string argument and a password string argument and returns None.
+
+Use the reset_token to find the corresponding user. If it does not exist, raise a ValueError exception.
+
+Otherwise, hash the password and update the user’s hashed_password field with the new hashed password and the reset_token field to None.
