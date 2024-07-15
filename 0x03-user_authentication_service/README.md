@@ -44,3 +44,14 @@ In this task, you will set up a basic Flask app.
 Create a Flask app that has a single GET route ("/") and use flask.jsonify to return a JSON payload of the form:
 
 {"message": "Bienvenue"}
+## app.py
+Register user
+In this task, you will implement the end-point to register a user. Define a users function that implements the POST /users route.
+
+Import the Auth object and instantiate it at the root of the module as such:
+
+from auth import Auth
+
+
+AUTH = Auth()
+The end-point should expect two form data fields: "email" and "password".
