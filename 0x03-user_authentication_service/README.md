@@ -82,8 +82,16 @@ If the login information is incorrect, use flask.abort to respond with a 401 HTT
 
 Otherwise, create a new session for the user, store it the session ID as a cookie with key "session_id" on the response and return a JSON payload of the form
 ## auth.py
+Find user by session ID
 In this task, you will implement the Auth.get_user_from_session_id method. It takes a single session_id string argument and returns the corresponding User or None.
 
 If the session ID is None or no user is found, return None. Otherwise return the corresponding user.
+
+Remember to only use public methods of self._db.
+## auth.py
+Destroy session
+In this task, you will implement Auth.destroy_session. The method takes a single user_id integer argument and returns None.
+
+The method updates the corresponding user’s session ID to None.
 
 Remember to only use public methods of self._db.
