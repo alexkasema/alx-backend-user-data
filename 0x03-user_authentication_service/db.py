@@ -70,16 +70,16 @@ class DB:
         if user is None:
             return
 
-        update_user = {}
+        update_user_by = {}
 
         for key, value in kwargs.items():
             if hasattr(User, key):
-                update_user[getattr(User, key)] = value
+                update_user_by[getattr(User, key)] = value
             else:
                 raise ValueError()
 
         self._session.query(User).filter(User.id == user_id).update(
-            update_user,
+            update_user_by,
             synchronize_session=False)
 
         self._session.commit()
