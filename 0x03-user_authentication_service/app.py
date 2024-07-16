@@ -9,7 +9,7 @@ app = Flask(__name__)
 AUTH = Auth()
 
 
-@app.route('/', methods=['GET'], strict_slashes=False)
+@app.route("/", methods=['GET'])
 def index() -> str:
     """ Return a JSON payload """
 
