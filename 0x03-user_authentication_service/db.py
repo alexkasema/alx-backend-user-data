@@ -2,7 +2,7 @@
 
 """DB module
 """
-from sqlalchemy import create_engine, tuple_
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -47,21 +47,21 @@ class DB:
     def find_user_by(self, **kwargs) -> User:
         """ Finds a user based on filter values """
 
-        fields, values = [], []
-        for key, value in kwargs.items():
-            if hasattr(User, key):
-                fields.append(getattr(User, key))
-                values.append(value)
-            else:
-                raise InvalidRequestError()
+        if not kwargs:
+            raise InvalidRequestError
 
-        result = self._session.query(User).filter(
-            tuple_(*fields).in_([tuple(values)])).first()
+        key_names = User.__table__.columns.keys()
 
-        if result is None:
-            raise NoResultFound()
+        for key in kwargs.keys():
+            if key not in key_names:
+                raise InvalidRequestError
 
-        return result
+        user = self._session.query(User).filter_by(**kwargs).first()
+
+        if user is None:
+            raise NoResultFound
+
+        return user
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """ Updates a user with a given id """
